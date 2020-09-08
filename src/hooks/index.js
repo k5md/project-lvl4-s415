@@ -2,4 +2,4 @@
 
 import { useSelector } from 'react-redux';
 
-export const useChannels = () => useSelector(({ channels }) => channels.channelsList);
+export const useChannels = () => useSelector(({ channels }) => channels);
