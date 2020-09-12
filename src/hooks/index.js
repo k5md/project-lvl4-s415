@@ -3,3 +3,5 @@
 import { useSelector } from 'react-redux';
 
 export const useChannels = () => useSelector(({ channels }) => channels);
+
+export const useMessages = () => useSelector(({ messages }) => messages);
