@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-import { initialize } from './slices/channels';
+import { initialize as initializeChannels } from './slices/channels';
+import { initialize as initializeMessages } from './slices/messages';
 import Chat from './components/Chat';
 
 export default (container, gon) => {
-  store.dispatch(initialize(gon));
+  store.dispatch(initializeChannels(gon));
+  store.dispatch(initializeMessages(gon));
 
   ReactDOM.render(
     <Provider store={store}>
