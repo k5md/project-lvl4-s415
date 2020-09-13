@@ -5,6 +5,7 @@ import store from './store';
 import { initialize as initializeChannels } from './slices/channels';
 import { initialize as initializeMessages } from './slices/messages';
 import Chat from './components/Chat';
+import { UserProvider } from '../lib/user';
 
 export default (container, gon) => {
   store.dispatch(initializeChannels(gon));
@@ -12,7 +13,9 @@ export default (container, gon) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <Chat />
+      <UserProvider>
+        <Chat />
+      </UserProvider>
     </Provider>, container,
   );
 };

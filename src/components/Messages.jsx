@@ -4,13 +4,14 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { useMessages, useChannels } from '../hooks';
+import { useMessages, useChannels, useUser } from '../hooks';
 import { sendMessage } from '../slices/messages';
 
 export default () => {
   const { messagesList } = useMessages();
   const { currentChannelId } = useChannels();
   const dispatch = useDispatch();
+  const { name } = useUser();
 
   const renderMessage = useCallback(({ id, author, body }) => (
     <div key={id}>
@@ -40,7 +41,7 @@ export default () => {
           initialValues={{ message: '' }}
           validate={validateNewMessage}
           onSubmit={async (values, { resetForm }) => {
-            await dispatch(sendMessage({ body: values.message, channelId: currentChannelId, author: 'Somebody' }));
+            await dispatch(sendMessage({ body: values.message, channelId: currentChannelId, author: name }));
             resetForm();
           }}
         >
