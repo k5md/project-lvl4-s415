@@ -4,12 +4,12 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { useMessages, useChannels, useUser } from '../hooks';
+import { useMessagesList, useChannels, useUser } from '../hooks';
 import { sendMessage } from '../slices/messages';
 
 export default () => {
-  const { messagesList } = useMessages();
   const { currentChannelId } = useChannels();
+  const messagesList = useMessagesList(currentChannelId);
   const dispatch = useDispatch();
   const { name } = useUser();
 

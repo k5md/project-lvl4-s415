@@ -24,8 +24,13 @@ const messagesSlice = createSlice({
     messagesList: [],
   },
   reducers: {
-    initialize: (_state, { payload: { messages } }) => ({
-      messagesList: messages,
+    initialize: (state, { payload: { messages } }) => ({
+      ...state,
+      messagesList: state.messagesList.concat(messages),
+    }),
+    addMessage: (state, { payload }) => ({
+      ...state,
+      messagesList: state.messagesList.concat(payload),
     }),
   },
   extraReducers: {
@@ -36,6 +41,6 @@ const messagesSlice = createSlice({
   },
 });
 
-export const { initialize } = messagesSlice.actions;
+export const { initialize, addMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
