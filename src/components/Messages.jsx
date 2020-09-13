@@ -3,15 +3,22 @@ import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { useMessages } from '../hooks';
+import { useDispatch } from 'react-redux';
+import { useMessages, useChannels } from '../hooks';
+import { sendMessage } from '../slices/messages';
 
 export default () => {
   const { messagesList } = useMessages();
+  const { currentChannelId } = useChannels();
+  const dispatch = useDispatch();
 
-  const renderMessage = useCallback(({ id, author, content }) => (
+  const renderMessage = useCallback(({ id, author, body }) => (
     <div key={id}>
-      <b>{author}</b>
-      {content}
+      <b>
+        {author}
+        :&nbsp;
+      </b>
+      {body}
     </div>
   ), []);
 
@@ -32,7 +39,10 @@ export default () => {
         <Formik
           initialValues={{ message: '' }}
           validate={validateNewMessage}
-          onSubmit={() => {}}
+          onSubmit={async (values, { resetForm }) => {
+            await dispatch(sendMessage({ body: values.message, channelId: currentChannelId, author: 'Somebody' }));
+            resetForm();
+          }}
         >
           {({
             values,
