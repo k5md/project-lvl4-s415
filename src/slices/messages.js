@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { uniqueId } from 'lodash';
 import routes from '../routes';
+import { add } from './notifications';
 
 export const sendMessage = createAsyncThunk(
   'messages/createMessage',
-  async (message, { rejectWithValue }) => {
+  async (message, { rejectWithValue, dispatch }) => {
     const { channelId, body, author } = message;
     try {
       const requestData = { data: { attributes: { author, body } } };
@@ -13,6 +15,8 @@ export const sendMessage = createAsyncThunk(
       const createdMessage = response.data.data.attributes;
       return createdMessage;
     } catch (err) {
+      const notification = { id: uniqueId(), type: 'Error', message: err.response.data };
+      dispatch(add(notification));
       return rejectWithValue(err.response.data);
     }
   },
@@ -20,24 +24,13 @@ export const sendMessage = createAsyncThunk(
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: {
-    messagesList: [],
-  },
+  initialState: [],
   reducers: {
-    initialize: (state, { payload: { messages } }) => ({
-      ...state,
-      messagesList: state.messagesList.concat(messages),
-    }),
-    addMessage: (state, { payload }) => ({
-      ...state,
-      messagesList: state.messagesList.concat(payload),
-    }),
+    initialize: (state, { payload: { messages } }) => messages,
+    addMessage: (state, { payload }) => state.concat(payload),
   },
   extraReducers: {
-    [sendMessage.fulfilled]: (state, { payload }) => ({
-      ...state,
-      messagesList: state.messagesList.concat(payload),
-    }),
+    [sendMessage.fulfilled]: (state, { payload }) => state.concat(payload),
   },
 });
 

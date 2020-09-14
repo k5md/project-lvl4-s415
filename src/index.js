@@ -5,9 +5,8 @@ import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
 
+// @ts-ignore
 import gon from 'gon';
-
-// import io from 'socket.io-client';
 
 import app from './app';
 

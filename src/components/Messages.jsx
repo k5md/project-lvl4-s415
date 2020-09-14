@@ -10,8 +10,15 @@ import { sendMessage } from '../slices/messages';
 export default () => {
   const { currentChannelId } = useChannels();
   const messagesList = useMessagesList(currentChannelId);
-  const dispatch = useDispatch();
   const { name } = useUser();
+
+  const dispatch = useDispatch();
+
+  const submitMessage = useCallback(async (values, { resetForm }) => {
+    const message = { body: values.message, channelId: currentChannelId, author: name };
+    await dispatch(sendMessage(message));
+    resetForm();
+  }, []);
 
   const renderMessage = useCallback(({ id, author, body }) => (
     <div key={id}>
@@ -40,10 +47,7 @@ export default () => {
         <Formik
           initialValues={{ message: '' }}
           validate={validateNewMessage}
-          onSubmit={async (values, { resetForm }) => {
-            await dispatch(sendMessage({ body: values.message, channelId: currentChannelId, author: name }));
-            resetForm();
-          }}
+          onSubmit={submitMessage}
         >
           {({
             values,
