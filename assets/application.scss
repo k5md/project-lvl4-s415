@@ -1,1 +1,12 @@
 @import '~bootstrap/scss/bootstrap';
+
+.notifications__container {
+  position: relative;
+  height: 3rem;
+}
+
+.notifications__toast {
+  position: absolute;
+  background-clip: unset;
+  box-shadow: none;
+};
