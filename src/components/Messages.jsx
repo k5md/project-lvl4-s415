@@ -4,10 +4,13 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useMessagesList, useChannels, useUser } from '../hooks';
 import { sendMessage } from '../slices/messages';
 
 export default () => {
+  const { t } = useTranslation();
+
   const { currentChannelId } = useChannels();
   const messagesList = useMessagesList(currentChannelId);
   const { name } = useUser();
@@ -60,7 +63,7 @@ export default () => {
               <InputGroup className="mb-3">
                 <Form.Control
                   type="text"
-                  placeholder="Your message..."
+                  placeholder={t('messages.placeholder')}
                   name="message"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -68,7 +71,7 @@ export default () => {
                 />
                 <InputGroup.Append>
                   <Button variant="primary" type="submit" disabled={isSubmitting}>
-                    <span>Send</span>
+                    <span>{t('messages.send')}</span>
                   </Button>
                 </InputGroup.Append>
               </InputGroup>

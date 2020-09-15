@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import { useChannels } from '../hooks';
 
 export default () => {
+  const { t } = useTranslation();
   const { channelsList, currentChannelId } = useChannels();
 
   const renderChannel = useCallback(({ id, name }) => (
@@ -15,7 +17,7 @@ export default () => {
   return (
     <>
       <div className="d-flex mb-3 align-items-center justify-content-between">
-        <span>Channels</span>
+        <span>{t('channels.title')}</span>
         <Button variant="link" className="shadow-none">+</Button>
       </div>
       <Nav variant="pills" className="flex-column">
