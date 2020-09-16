@@ -14,8 +14,6 @@ deploy:
   provider: heroku
   app: safe-forest-48671
   api_key: "$HEROKU_ACCESS_TOKEN"
-  run:
-    - "make install"
-    - "make build"
+  skip_cleanup: true
   on:
     branch: release
