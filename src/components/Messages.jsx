@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useMessagesList, useChannels, useUser } from '../hooks';
 import { createMessage } from '../slices/messages';
+import { open } from '../slices/modals';
 
 export default () => {
   const { t } = useTranslation();
@@ -41,11 +42,19 @@ export default () => {
     return errors;
   }, []);
 
+  const showRemoveChannel = useCallback(() => {
+    dispatch((open('removeChannel')));
+  }, []);
+
+  const showRenameChannel = useCallback(() => {
+    dispatch((open('renameChannel')));
+  }, []);
+
   return (
     <div className="h-100 d-flex flex-column">
       <div className="d-flex mb-3 align-items-center justify-content-end">
-        <Button variant="link" className="shadow-none">{t('channels.rename')}</Button>
-        <Button variant="link" className="shadow-none">{t('channels.remove')}</Button>
+        <Button variant="link" className="shadow-none" onClick={showRenameChannel}>{t('channels.rename')}</Button>
+        <Button variant="link" className="shadow-none" onClick={showRemoveChannel}>{t('channels.remove')}</Button>
       </div>
 
       <div className="overflow-auto mb-3">
