@@ -7,9 +7,9 @@ import { create as createNotification } from './notifications';
 
 export const createChannel = createAsyncThunk(
   'channels/create',
-  async ({ title }, { dispatch }) => {
+  async ({ name }, { dispatch }) => {
     try {
-      const requestData = { data: { attributes: { name: title } } };
+      const requestData = { data: { attributes: { name } } };
       const request = { method: 'POST', url: routes.channelsPath(), data: requestData };
       await axios(request);
     } catch (err) {
@@ -62,10 +62,11 @@ const channelsSlice = createSlice({
     },
     create: (state, { payload }) => {
       state.channelsList.push(payload);
+      state.currentChannelId = payload.id;
     },
     remove: (state, { payload: { id } }) => {
       state.channelsList = state.channelsList.filter((channel) => channel.id !== id);
-      state.currentChannel = state.currentChannel !== id ? state.currentChannel : 1;
+      state.currentChannelId = state.currentChannelId !== id ? state.currentChannelId : null;
     },
     rename: (state, { payload: { id, name } }) => {
       const targetChannel = state.channelsList.find((channel) => channel.id === id);

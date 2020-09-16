@@ -25,7 +25,9 @@ const messagesSlice = createSlice({
   initialState: [],
   reducers: {
     initialize: (state, { payload: { messages } }) => messages,
-    create: (state, { payload }) => state.concat(payload),
+    create: (state, { payload }) => {
+      state.push(payload);
+    },
   },
 });
 
