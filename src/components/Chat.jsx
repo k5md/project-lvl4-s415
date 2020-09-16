@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Channels from './Channels';
-import Messages from './Messages';
+import ActiveChannel from './ActiveChannel';
 import Notifications from './Notifications';
 import Modals from './Modals';
 
@@ -14,7 +14,7 @@ export default () => (
         <Channels />
       </Col>
       <Col className="h-100">
-        <Messages />
+        <ActiveChannel />
       </Col>
     </Row>
     <Notifications />

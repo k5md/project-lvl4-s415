@@ -4,7 +4,7 @@ import { useModals } from '../hooks';
 import AddChannel from './modals/AddChannel';
 import RemoveChannel from './modals/RemoveChannel';
 import RenameChannel from './modals/RenameChannel';
-import { close } from '../slices/modals';
+import { closeModal } from '../slices/modals';
 
 const modals = {
   addChannel: AddChannel,
@@ -18,7 +18,7 @@ export default () => {
   const Modal = modals[name];
 
   const closeHandler = useCallback(() => {
-    dispatch(close());
+    dispatch(closeModal());
   }, []);
 
   return Modal ? (<Modal onClose={closeHandler} />) : null;

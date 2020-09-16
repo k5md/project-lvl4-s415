@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useChannels } from '../hooks';
-import { open } from '../slices/modals';
-import { setCurrent } from '../slices/channels';
+import { openModal } from '../slices/modals';
+import { setCurrentChannel } from '../slices/channels';
 
 export default () => {
   const { t } = useTranslation();
@@ -13,18 +13,24 @@ export default () => {
 
   const { channelsList, currentChannelId } = useChannels();
 
-  const activateChannel = (id) => () => {
-    dispatch(setCurrent({ id }));
+  const activateHandler = (id) => () => {
+    dispatch(setCurrentChannel({ id }));
   };
 
   const renderChannel = ({ id, name }) => (
     <Nav.Item key={id}>
-      <Nav.Link active={id === currentChannelId} className="text-truncate" onClick={activateChannel(id)}>{name}</Nav.Link>
+      <Nav.Link
+        active={id === currentChannelId}
+        className="text-truncate"
+        onClick={activateHandler(id)}
+      >
+        {name}
+      </Nav.Link>
     </Nav.Item>
   );
 
   const showAddChannel = useCallback(() => {
-    dispatch((open('addChannel')));
+    dispatch((openModal('addChannel')));
   }, []);
 
   return (

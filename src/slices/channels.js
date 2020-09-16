@@ -1,48 +1,42 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { uniqueId } from 'lodash';
-import axios from 'axios';
-import routes from '../routes';
-import { create as createNotification } from './notifications';
+import { createNotification } from './notifications';
+import api from '../api';
 
-export const createChannel = createAsyncThunk(
+export const createChannelRequest = createAsyncThunk(
   'channels/create',
   async ({ name }, { dispatch }) => {
     try {
-      const requestData = { data: { attributes: { name } } };
-      const request = { method: 'POST', url: routes.channelsPath(), data: requestData };
-      await axios(request);
+      await api.createChannel({ name });
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }
   },
 );
 
-export const removeChannel = createAsyncThunk(
+export const removeChannelRequest = createAsyncThunk(
   'channels/remove',
   async ({ id }, { dispatch }) => {
     try {
-      const request = { method: 'DELETE', url: routes.channelPath(id) };
-      await axios(request);
+      await api.removeChannel({ id });
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }
   },
 );
 
-export const renameChannel = createAsyncThunk(
+export const renameChannelRequest = createAsyncThunk(
   'channels/rename',
   async ({ id, name }, { dispatch }) => {
     try {
-      const requestData = { data: { attributes: { name } } };
-      const request = { method: 'PATCH', url: routes.channelPath(id), data: requestData };
-      await axios(request);
+      await api.renameChannel({ id, name });
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }
@@ -56,34 +50,34 @@ const channelsSlice = createSlice({
     currentChannelId: null,
   },
   reducers: {
-    initialize: (state, { payload: { channels, currentChannelId } }) => {
+    initializeChannels: (state, { payload: { channels, currentChannelId } }) => {
       state.channelsList = channels;
       state.currentChannelId = currentChannelId;
     },
-    create: (state, { payload }) => {
+    createChannel: (state, { payload }) => {
       state.channelsList.push(payload);
       state.currentChannelId = payload.id;
     },
-    remove: (state, { payload: { id } }) => {
+    removeChannel: (state, { payload: { id } }) => {
       state.channelsList = state.channelsList.filter((channel) => channel.id !== id);
       state.currentChannelId = state.currentChannelId !== id ? state.currentChannelId : null;
     },
-    rename: (state, { payload: { id, name } }) => {
+    renameChannel: (state, { payload: { id, name } }) => {
       const targetChannel = state.channelsList.find((channel) => channel.id === id);
       targetChannel.name = name;
     },
-    setCurrent: (state, { payload: { id } }) => {
+    setCurrentChannel: (state, { payload: { id } }) => {
       state.currentChannelId = id;
     },
   },
 });
 
 export const {
-  initialize,
-  create,
-  remove,
-  rename,
-  setCurrent,
+  initializeChannels,
+  createChannel,
+  removeChannel,
+  renameChannel,
+  setCurrentChannel,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

@@ -1,19 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { uniqueId } from 'lodash';
-import routes from '../routes';
-import { create as createNotification } from './notifications';
+import { createNotification } from './notifications';
+import api from '../api';
 
-export const createMessage = createAsyncThunk(
+export const createMessageRequest = createAsyncThunk(
   'messages/createMessage',
   async (message, { dispatch }) => {
     const { channelId, body, author } = message;
     try {
-      const requestData = { data: { attributes: { author, body } } };
-      const request = { method: 'POST', url: routes.channelMessagesPath(channelId), data: requestData };
-      await axios(request);
+      await api.createMessage({ channelId, body, author });
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }
@@ -24,13 +21,13 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState: [],
   reducers: {
-    initialize: (state, { payload: { messages } }) => messages,
-    create: (state, { payload }) => {
+    initializeMessages: (state, { payload: { messages } }) => messages,
+    createMessage: (state, { payload }) => {
       state.push(payload);
     },
   },
 });
 
-export const { initialize, create } = messagesSlice.actions;
+export const { initializeMessages, createMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

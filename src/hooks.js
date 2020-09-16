@@ -1,8 +1,6 @@
-/* eslint-disable import/prefer-default-export */
-
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
-import { UserContext } from '../components/UserContext';
+import { UserContext } from './components/UserContext';
 
 export const useChannels = () => useSelector(({ channels }) => channels);
 

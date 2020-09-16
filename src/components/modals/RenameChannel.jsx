@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { renameChannel } from '../../slices/channels';
+import { renameChannelRequest } from '../../slices/channels';
 import { useChannels } from '../../hooks';
 
 export default ({ onClose }) => {
@@ -16,17 +16,17 @@ export default ({ onClose }) => {
 
   const dispatch = useDispatch();
 
-  const submitChannel = useCallback(async (values, { resetForm }) => {
+  const renameHandler = useCallback(async (values, { resetForm }) => {
     const channel = { name: values.name, id: currentChannelId };
-    await dispatch(renameChannel(channel));
+    await dispatch(renameChannelRequest(channel));
     resetForm();
     onClose();
   }, []);
 
-  const validateNewChannel = useCallback(({ name }) => {
+  const validateChannel = useCallback(({ name }) => {
     const errors = {};
     if (name.length === 0) {
-      errors.name = 'Empty channel name';
+      errors.name = t('errors.channels.emptyName');
     }
     return errors;
   }, []);
@@ -40,8 +40,8 @@ export default ({ onClose }) => {
       </Modal.Header>
       <Formik
         initialValues={{ name: currentChannel.name }}
-        validate={validateNewChannel}
-        onSubmit={submitChannel}
+        validate={validateChannel}
+        onSubmit={renameHandler}
       >
         {({
           values,
