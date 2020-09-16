@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { useChannels } from '../hooks';
-import { open } from '../slices/modals';
+import { openModal } from '../slices/modals';
 
 export default () => {
   const { t } = useTranslation();
@@ -13,8 +13,8 @@ export default () => {
   const { removable, name: channelName } = channelsList.find(({ id }) => currentChannelId === id) || { name: '', removable: false };
 
   const dispatch = useDispatch();
-  const showRemoveChannel = useCallback(() => dispatch((open('removeChannel'))), []);
-  const showRenameChannel = useCallback(() => dispatch((open('renameChannel'))), []);
+  const removeHandler = useCallback(() => dispatch((openModal('removeChannel'))), []);
+  const renameHandler = useCallback(() => dispatch((openModal('renameChannel'))), []);
 
   return (
     <div className="d-flex align-items-center justify-content-end">
@@ -22,14 +22,14 @@ export default () => {
       <Button
         variant="link"
         className={cn({ 'shadow-none': true, invisible: !removable })}
-        onClick={showRenameChannel}
+        onClick={renameHandler}
       >
         {t('channels.rename')}
       </Button>
       <Button
         variant="link"
         className={cn({ 'shadow-none': true, invisible: !removable })}
-        onClick={showRemoveChannel}
+        onClick={removeHandler}
       >
         {t('channels.remove')}
       </Button>

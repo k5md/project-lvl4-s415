@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useChannels, useUser } from '../hooks';
-import { createMessage } from '../slices/messages';
+import { createMessageRequest } from '../slices/messages';
 
 export default () => {
   const { t } = useTranslation();
@@ -15,13 +15,13 @@ export default () => {
 
   const dispatch = useDispatch();
 
-  const submitMessage = useCallback(async (values, { resetForm }) => {
+  const addHandler = useCallback(async (values, { resetForm }) => {
     const message = { body: values.message, channelId: currentChannelId, author: name };
-    await dispatch(createMessage(message));
+    await dispatch(createMessageRequest(message));
     resetForm();
   }, [name, currentChannelId]);
 
-  const validateNewMessage = useCallback(({ message }) => {
+  const validateMessage = useCallback(({ message }) => {
     const errors = {};
     if (message.length === 0) {
       errors.message = 'Empty message';
@@ -32,8 +32,8 @@ export default () => {
   return (
     <Formik
       initialValues={{ message: '' }}
-      validate={validateNewMessage}
-      onSubmit={submitMessage}
+      validate={validateMessage}
+      onSubmit={addHandler}
     >
       {({
         values,

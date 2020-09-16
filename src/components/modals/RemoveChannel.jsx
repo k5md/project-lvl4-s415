@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { removeChannel as remove } from '../../slices/channels';
+import { removeChannelRequest } from '../../slices/channels';
 import { useChannels } from '../../hooks';
 
 export default ({ onClose }) => {
@@ -12,8 +12,8 @@ export default ({ onClose }) => {
   const dispatch = useDispatch();
   const { currentChannelId } = useChannels();
 
-  const removeChannel = useCallback(async () => {
-    await dispatch(remove({ id: currentChannelId }));
+  const removeHandler = useCallback(async () => {
+    await dispatch(removeChannelRequest({ id: currentChannelId }));
     onClose();
   }, []);
 
@@ -31,7 +31,7 @@ export default ({ onClose }) => {
         <Button variant="secondary" onClick={onClose}>
           <span>{t('modals.removeChannel.cancel')}</span>
         </Button>
-        <Button variant="danger" onClick={removeChannel}>
+        <Button variant="danger" onClick={removeHandler}>
           <span>{t('modals.removeChannel.confirm')}</span>
         </Button>
       </Modal.Footer>

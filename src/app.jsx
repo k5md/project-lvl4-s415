@@ -5,12 +5,17 @@ import io from 'socket.io-client';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import store from './store';
-import { initialize as initializeChannels, create as createChannel, remove as removeChannel, rename as renameChannel} from './slices/channels';
-import { initialize as initializeMessages, create as createMessage } from './slices/messages';
+import {
+  initializeChannels,
+  createChannel,
+  removeChannel,
+  renameChannel,
+} from './slices/channels';
+import { initializeMessages, createMessage } from './slices/messages';
 import Chat from './components/Chat';
 import { UserProvider } from './components/UserContext';
 import initializeUser from '../lib/user';
-import { create as createNotification } from './slices/notifications';
+import { createNotification } from './slices/notifications';
 import locales from './locales';
 
 export default (container, gon) => {

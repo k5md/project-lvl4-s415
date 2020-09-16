@@ -3,7 +3,7 @@ import Toast from 'react-bootstrap/Toast';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNotifications } from '../hooks';
-import { remove } from '../slices/notifications';
+import { removeNotification } from '../slices/notifications';
 
 export default () => {
   const { t } = useTranslation();
@@ -11,12 +11,12 @@ export default () => {
 
   const dispatch = useDispatch();
 
-  const removeNotification = (id) => () => dispatch(remove(id));
+  const removeHandler = (id) => () => dispatch(removeNotification(id));
 
   const renderNotification = useCallback(({ id, type, message }) => (
     <Toast
       key={id}
-      onClose={removeNotification(id)}
+      onClose={removeHandler(id)}
       delay={5000}
       autohide
       className="mw-100 w-100 border-0 notifications__toast"
