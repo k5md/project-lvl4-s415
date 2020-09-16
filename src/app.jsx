@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import io from 'socket.io-client';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import Rollbar from 'rollbar';
 import store from './store';
 import {
   initializeChannels,
@@ -18,8 +19,19 @@ import initializeUser from '../lib/user';
 import { createNotification } from './slices/notifications';
 import locales from './locales';
 import api from './api';
+import ErrorBoundary from './components/ErrorBoundary';
 
 export default (container, gon) => {
+  const errorReporter = new Rollbar({
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN || '',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    payload: {
+      environment: process.env.NODE_ENV,
+    },
+    enabled: process.env.NODE_ENV === 'production',
+  });
+
   i18n
     .use(initReactI18next)
     .init({
@@ -40,10 +52,12 @@ export default (container, gon) => {
   socket.on('renameChannel', (data) => store.dispatch(renameChannel(api.renameChannelSocket(data))));
 
   ReactDOM.render(
-    <Provider store={store}>
-      <UserProvider value={user}>
-        <Chat />
-      </UserProvider>
-    </Provider>, container,
+    <ErrorBoundary errorReporter={errorReporter}>
+      <Provider store={store}>
+        <UserProvider value={user}>
+          <Chat />
+        </UserProvider>
+      </Provider>
+    </ErrorBoundary>, container,
   );
 };
