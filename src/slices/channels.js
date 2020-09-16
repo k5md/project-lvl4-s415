@@ -13,7 +13,7 @@ export const createChannelRequest = createAsyncThunk(
       const request = { method: 'POST', url: routes.channelsPath(), data: requestData };
       await axios(request);
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }
@@ -27,7 +27,7 @@ export const removeChannelRequest = createAsyncThunk(
       const request = { method: 'DELETE', url: routes.channelPath(id) };
       await axios(request);
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }
@@ -42,7 +42,7 @@ export const renameChannelRequest = createAsyncThunk(
       const request = { method: 'PATCH', url: routes.channelPath(id), data: requestData };
       await axios(request);
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }

@@ -13,7 +13,7 @@ export const createMessageRequest = createAsyncThunk(
       const request = { method: 'POST', url: routes.channelMessagesPath(channelId), data: requestData };
       await axios(request);
     } catch (err) {
-      const notification = { id: uniqueId(), type: 'Error', message: err.message };
+      const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
       throw err;
     }

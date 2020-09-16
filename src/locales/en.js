@@ -27,5 +27,16 @@ export default {
         submit: 'Submit',
       },
     },
+    errors: {
+      channels: {
+        emptyName: 'Channel\'s name is empty',
+      },
+      messages: {
+        emptyBody: 'Message is empty',
+      },
+    },
+    error: 'Error',
+    note: 'Note',
+    connected: 'Connected',
   },
 };

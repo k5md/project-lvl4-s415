@@ -32,7 +32,7 @@ export default (container, gon) => {
   const user = initializeUser();
 
   const socket = io();
-  socket.on('connect', () => store.dispatch(createNotification({ type: 'Note', message: 'Connected' })));
+  socket.on('connect', () => store.dispatch(createNotification({ type: 'note', message: 'connected' })));
   socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(createMessage(attributes)));
   socket.on('newChannel', ({ data: { attributes } }) => store.dispatch(createChannel(attributes)));
   socket.on('removeChannel', ({ data }) => store.dispatch(removeChannel(data)));

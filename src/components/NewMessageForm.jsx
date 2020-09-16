@@ -24,7 +24,7 @@ export default () => {
   const validateMessage = useCallback(({ message }) => {
     const errors = {};
     if (message.length === 0) {
-      errors.message = 'Empty message';
+      errors.message = t('errors.messages.emptyBody');
     }
     return errors;
   }, []);

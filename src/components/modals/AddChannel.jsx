@@ -23,7 +23,7 @@ export default ({ onClose }) => {
   const validateChannel = useCallback(({ name }) => {
     const errors = {};
     if (name.length === 0) {
-      errors.name = 'Empty channel name';
+      errors.name = t('errors.channels.emptyName');
     }
     return errors;
   }, []);
