@@ -14,3 +14,5 @@ export const useMessagesList = (channelId) => useSelector(
 export const useUser = () => useContext(UserContext);
 
 export const useNotifications = () => useSelector(({ notifications }) => notifications);
+
+export const useModals = () => useSelector(({ modals }) => modals);

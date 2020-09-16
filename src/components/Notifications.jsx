@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import Toast from 'react-bootstrap/Toast';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useNotifications } from '../hooks';
 import { remove } from '../slices/notifications';
 
 export default () => {
+  const { t } = useTranslation();
   const notifications = useNotifications();
 
   const dispatch = useDispatch();
@@ -21,10 +23,10 @@ export default () => {
     >
       <Toast.Header className="border-0">
         <strong className="mr-auto text-truncate">
-          {type}
+          {t(type)}
           :
         </strong>
-        <div className="text-truncate">{message}</div>
+        <div className="text-truncate">{t(message)}</div>
       </Toast.Header>
     </Toast>
   ), []);
