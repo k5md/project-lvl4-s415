@@ -5,6 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 import { useMessagesList, useChannels, useUser } from '../hooks';
 import { createMessage } from '../slices/messages';
 import { open } from '../slices/modals';
@@ -13,8 +14,7 @@ export default () => {
   const { t } = useTranslation();
 
   const { currentChannelId, channelsList } = useChannels();
-  const channel = channelsList.find(({ id }) => currentChannelId === id);
-  const removable = channel ? channel.removable : false;
+  const { removable, name: channelName } = channelsList.find(({ id }) => currentChannelId === id) || { name: '', removable: false };
 
   const messagesList = useMessagesList(currentChannelId);
   const { name } = useUser();
@@ -28,12 +28,14 @@ export default () => {
   }, [name, currentChannelId]);
 
   const renderMessage = useCallback(({ id, author, body }) => (
-    <div key={id}>
-      <b>
-        {author}
-        :&nbsp;
-      </b>
-      {body}
+    <div className="text-wrap text-break" key={id}>
+      <p>
+        <strong>
+          {author}
+          :&nbsp;
+        </strong>
+        {body}
+      </p>
     </div>
   ), []);
 
@@ -55,14 +57,13 @@ export default () => {
 
   return (
     <div className="h-100 d-flex flex-column">
-      {removable && (
-        <div className="d-flex mb-3 align-items-center justify-content-end">
-          <Button variant="link" className="shadow-none" onClick={showRenameChannel}>{t('channels.rename')}</Button>
-          <Button variant="link" className="shadow-none" onClick={showRemoveChannel}>{t('channels.remove')}</Button>
-        </div>
-      )}
+      <div className="d-flex mb-3 align-items-center justify-content-end">
+        <div className="text-truncate mr-auto">{channelName}</div>
+        <Button variant="link" className={cn({ 'shadow-none': true, invisible: !removable })} onClick={showRenameChannel}>{t('channels.rename')}</Button>
+        <Button variant="link" className={cn({ 'shadow-none': true, invisible: !removable })} onClick={showRemoveChannel}>{t('channels.remove')}</Button>
+      </div>
 
-      <div className="overflow-auto mb-3">
+      <div className="mb-3 scrollable">
         {messagesList.filter(({ channelId }) => currentChannelId === channelId).map(renderMessage)}
       </div>
 

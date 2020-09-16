@@ -28,14 +28,14 @@ export default () => {
   }, []);
 
   return (
-    <>
+    <div className="h-100 d-flex flex-column">
       <div className="d-flex mb-3 align-items-center justify-content-between">
         <span>{t('channels.title')}</span>
         <Button variant="link" className="shadow-none" onClick={showAddChannel}>+</Button>
       </div>
-      <Nav variant="pills" className="flex-column">
+      <Nav variant="pills" className="d-flex flex-column flex-nowrap scrollable">
         {channelsList.map(renderChannel)}
       </Nav>
-    </>
+    </div>
   );
 };
