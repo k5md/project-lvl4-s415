@@ -1,17 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { uniqueId } from 'lodash';
-import routes from '../routes';
 import { createNotification } from './notifications';
+import api from '../api';
 
 export const createMessageRequest = createAsyncThunk(
   'messages/createMessage',
   async (message, { dispatch }) => {
     const { channelId, body, author } = message;
     try {
-      const requestData = { data: { attributes: { author, body } } };
-      const request = { method: 'POST', url: routes.channelMessagesPath(channelId), data: requestData };
-      await axios(request);
+      await api.createMessage({ channelId, body, author });
     } catch (err) {
       const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));

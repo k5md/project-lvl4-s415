@@ -1,17 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { uniqueId } from 'lodash';
-import axios from 'axios';
-import routes from '../routes';
 import { createNotification } from './notifications';
+import api from '../api';
 
 export const createChannelRequest = createAsyncThunk(
   'channels/create',
   async ({ name }, { dispatch }) => {
     try {
-      const requestData = { data: { attributes: { name } } };
-      const request = { method: 'POST', url: routes.channelsPath(), data: requestData };
-      await axios(request);
+      await api.createChannel({ name });
     } catch (err) {
       const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
@@ -24,8 +21,7 @@ export const removeChannelRequest = createAsyncThunk(
   'channels/remove',
   async ({ id }, { dispatch }) => {
     try {
-      const request = { method: 'DELETE', url: routes.channelPath(id) };
-      await axios(request);
+      await api.removeChannel({ id });
     } catch (err) {
       const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));
@@ -38,9 +34,7 @@ export const renameChannelRequest = createAsyncThunk(
   'channels/rename',
   async ({ id, name }, { dispatch }) => {
     try {
-      const requestData = { data: { attributes: { name } } };
-      const request = { method: 'PATCH', url: routes.channelPath(id), data: requestData };
-      await axios(request);
+      await api.renameChannel({ id, name });
     } catch (err) {
       const notification = { id: uniqueId(), type: 'error', message: err.message };
       dispatch(createNotification(notification));

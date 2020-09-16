@@ -17,6 +17,7 @@ import { UserProvider } from './components/UserContext';
 import initializeUser from '../lib/user';
 import { createNotification } from './slices/notifications';
 import locales from './locales';
+import api from './api';
 
 export default (container, gon) => {
   i18n
@@ -33,10 +34,10 @@ export default (container, gon) => {
 
   const socket = io();
   socket.on('connect', () => store.dispatch(createNotification({ type: 'note', message: 'connected' })));
-  socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(createMessage(attributes)));
-  socket.on('newChannel', ({ data: { attributes } }) => store.dispatch(createChannel(attributes)));
-  socket.on('removeChannel', ({ data }) => store.dispatch(removeChannel(data)));
-  socket.on('renameChannel', ({ data: { attributes } }) => store.dispatch(renameChannel(attributes)));
+  socket.on('newMessage', (data) => store.dispatch(createMessage(api.newMessageSocket(data))));
+  socket.on('newChannel', (data) => store.dispatch(createChannel(api.newChannelSocket(data))));
+  socket.on('removeChannel', (data) => store.dispatch(removeChannel(api.removeChannelSocket(data))));
+  socket.on('renameChannel', (data) => store.dispatch(renameChannel(api.renameChannelSocket(data))));
 
   ReactDOM.render(
     <Provider store={store}>
