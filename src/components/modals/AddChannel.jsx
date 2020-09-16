@@ -17,6 +17,7 @@ export default ({ onClose }) => {
     const channel = { name: values.name };
     await dispatch(createChannel(channel));
     resetForm();
+    onClose();
   }, []);
 
   const validateNewChannel = useCallback(({ name }) => {

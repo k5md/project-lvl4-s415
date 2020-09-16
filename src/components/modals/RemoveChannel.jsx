@@ -13,7 +13,8 @@ export default ({ onClose }) => {
   const { currentChannelId } = useChannels();
 
   const removeChannel = useCallback(async () => {
-    await dispatch(remove(currentChannelId));
+    await dispatch(remove({ id: currentChannelId }));
+    onClose();
   }, []);
 
   return (

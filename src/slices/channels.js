@@ -36,9 +36,9 @@ export const removeChannel = createAsyncThunk(
 
 export const renameChannel = createAsyncThunk(
   'channels/rename',
-  async ({ id, title }, { dispatch }) => {
+  async ({ id, name }, { dispatch }) => {
     try {
-      const requestData = { data: { attributes: { name: title } } };
+      const requestData = { data: { attributes: { name } } };
       const request = { method: 'PATCH', url: routes.channelPath(id), data: requestData };
       await axios(request);
     } catch (err) {

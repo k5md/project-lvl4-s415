@@ -12,7 +12,10 @@ import { open } from '../slices/modals';
 export default () => {
   const { t } = useTranslation();
 
-  const { currentChannelId } = useChannels();
+  const { currentChannelId, channelsList } = useChannels();
+  const channel = channelsList.find(({ id }) => currentChannelId === id);
+  const removable = channel ? channel.removable : false;
+
   const messagesList = useMessagesList(currentChannelId);
   const { name } = useUser();
 
@@ -22,7 +25,7 @@ export default () => {
     const message = { body: values.message, channelId: currentChannelId, author: name };
     await dispatch(createMessage(message));
     resetForm();
-  }, []);
+  }, [name, currentChannelId]);
 
   const renderMessage = useCallback(({ id, author, body }) => (
     <div key={id}>
@@ -52,13 +55,15 @@ export default () => {
 
   return (
     <div className="h-100 d-flex flex-column">
-      <div className="d-flex mb-3 align-items-center justify-content-end">
-        <Button variant="link" className="shadow-none" onClick={showRenameChannel}>{t('channels.rename')}</Button>
-        <Button variant="link" className="shadow-none" onClick={showRemoveChannel}>{t('channels.remove')}</Button>
-      </div>
+      {removable && (
+        <div className="d-flex mb-3 align-items-center justify-content-end">
+          <Button variant="link" className="shadow-none" onClick={showRenameChannel}>{t('channels.rename')}</Button>
+          <Button variant="link" className="shadow-none" onClick={showRemoveChannel}>{t('channels.remove')}</Button>
+        </div>
+      )}
 
       <div className="overflow-auto mb-3">
-        {messagesList.map(renderMessage)}
+        {messagesList.filter(({ channelId }) => currentChannelId === channelId).map(renderMessage)}
       </div>
 
       <div className="mt-auto">
