@@ -34,6 +34,7 @@ export default {
       messages: {
         emptyBody: 'Message is empty',
       },
+      general: 'Something went wrong...',
     },
     error: 'Error',
     note: 'Note',
