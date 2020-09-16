@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useMessagesList, useChannels, useUser } from '../hooks';
-import { sendMessage } from '../slices/messages';
+import { createMessage } from '../slices/messages';
 
 export default () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export default () => {
 
   const submitMessage = useCallback(async (values, { resetForm }) => {
     const message = { body: values.message, channelId: currentChannelId, author: name };
-    await dispatch(sendMessage(message));
+    await dispatch(createMessage(message));
     resetForm();
   }, []);
 
@@ -43,9 +43,15 @@ export default () => {
 
   return (
     <div className="h-100 d-flex flex-column">
+      <div className="d-flex mb-3 align-items-center justify-content-end">
+        <Button variant="link" className="shadow-none">{t('channels.rename')}</Button>
+        <Button variant="link" className="shadow-none">{t('channels.remove')}</Button>
+      </div>
+
       <div className="overflow-auto mb-3">
         {messagesList.map(renderMessage)}
       </div>
+
       <div className="mt-auto">
         <Formik
           initialValues={{ message: '' }}

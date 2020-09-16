@@ -6,11 +6,11 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import store from './store';
 import { initialize as initializeChannels } from './slices/channels';
-import { initialize as initializeMessages, addMessage } from './slices/messages';
+import { initialize as initializeMessages, create as createMessage } from './slices/messages';
 import Chat from './components/Chat';
 import { UserProvider } from './components/UserContext';
 import initializeUser from '../lib/user';
-import { add } from './slices/notifications';
+import { create as createNotification } from './slices/notifications';
 import locales from './locales';
 
 export default (container, gon) => {
@@ -27,8 +27,8 @@ export default (container, gon) => {
   const user = initializeUser();
 
   const socket = io();
-  socket.on('connect', () => store.dispatch(add({ type: 'Note', message: 'Connected' })));
-  socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addMessage(attributes)));
+  socket.on('connect', () => store.dispatch(createNotification({ type: 'Note', message: 'Connected' })));
+  socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(createMessage(attributes)));
 
   ReactDOM.render(
     <Provider store={store}>
