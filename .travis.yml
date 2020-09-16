@@ -7,13 +7,9 @@ script:
   - make test
   - make lint
 
-env:
-  - ROLLBAR_ACCESS_TOKEN="$ROLLBAR_ACCESS_TOKEN"
-
 deploy:
   provider: heroku
   app: safe-forest-48671
   api_key: "$HEROKU_ACCESS_TOKEN"
-  skip_cleanup: true
   on:
     branch: release
