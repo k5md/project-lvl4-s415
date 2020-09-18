@@ -23,10 +23,13 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 export default (container, gon) => {
   const errorReporter = new Rollbar({
-    accessToken: '265bfdaa6f2548c4bcc796a94ec8e27e',
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN || '',
     captureUncaught: true,
     captureUnhandledRejections: true,
     enabled: process.env.NODE_ENV === 'production',
+    payload: {
+      environment: process.env.NODE_ENV,
+    },
   });
 
   i18n
