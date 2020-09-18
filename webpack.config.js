@@ -1,9 +1,10 @@
 // @ts-check
 
+const webpack = require('webpack');
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = !isProduction;
-console.log('isProduction', isProduction);
+console.log({ isProduction });
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -22,6 +23,9 @@ module.exports = {
   },
   plugins: [
     // new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.ROLLBAR_ACCESS_TOKEN': JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN),
+    }),
   ],
   module: {
     rules: [

@@ -4,6 +4,7 @@ node_js:
 
 script:
   - make install
+  - make build
   - make test
   - make lint
 
@@ -11,5 +12,6 @@ deploy:
   provider: heroku
   app: safe-forest-48671
   api_key: "$HEROKU_ACCESS_TOKEN"
+  skip_cleanup: true
   on:
     branch: release
