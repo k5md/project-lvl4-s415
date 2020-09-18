@@ -22,6 +22,7 @@ import api from './api';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default (container, gon) => {
+  console.log(process.env.ROLLBAR_ACCESS_TOKEN);
   const errorReporter = new Rollbar({
     accessToken: process.env.ROLLBAR_ACCESS_TOKEN || '',
     captureUncaught: true,
