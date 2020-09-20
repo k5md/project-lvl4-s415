@@ -13,6 +13,7 @@
 
 ```sh
 $ make install
+$ make build
 ```
 
 ## Run
