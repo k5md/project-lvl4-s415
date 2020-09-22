@@ -19,12 +19,12 @@ export default () => {
       onClose={removeHandler(id)}
       delay={5000}
       autohide
-      className="mw-100 w-100 border-0 notifications__toast"
     >
-      <Toast.Header className="border-0">
+      <Toast.Header>
         <strong className="mr-auto text-truncate">
           {t(type)}
           :
+          &nbsp;
         </strong>
         <div className="text-truncate">{t(message)}</div>
       </Toast.Header>
@@ -32,7 +32,7 @@ export default () => {
   ), []);
 
   return (
-    <div className="mt-3 notifications__container">
+    <div className="mt-3 mr-3 notifications__container">
       {notifications.map(renderNotification)}
     </div>
   );

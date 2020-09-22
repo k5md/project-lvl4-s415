@@ -8,7 +8,7 @@ export default () => (
     <div className="mb-3">
       <ChannelControls />
     </div>
-    <div className="mb-3 scrollable">
+    <div className="mb-3 overflow-auto">
       <Messages />
     </div>
     <div className="mt-auto">

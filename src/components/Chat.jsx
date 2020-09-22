@@ -9,8 +9,8 @@ import Modals from './Modals';
 
 export default () => (
   <Container className="h-100 d-flex flex-column overflow-hidden pb-3">
-    <Row className="flex-grow-1">
-      <Col xs={4} className="border-right">
+    <Row className="h-100">
+      <Col xs={4} className="h-100 border-right">
         <Channels />
       </Col>
       <Col className="h-100">
