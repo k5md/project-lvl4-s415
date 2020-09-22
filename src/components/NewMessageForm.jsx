@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import * as Yup from 'yup';
 import { uniqueId } from 'lodash';
-import { useChannels, useUser } from '../hooks';
+import { UserContext } from '../UserContext';
+import { useChannels } from '../hooks';
 import { createNotification } from '../slices/notifications';
 import api from '../api';
 
@@ -19,7 +20,7 @@ const NewMessageSchema = Yup.object().shape({
 export default () => {
   const { t } = useTranslation();
   const { currentChannelId } = useChannels();
-  const { name } = useUser();
+  const { name } = useContext(UserContext);
 
   const dispatch = useDispatch();
 
