@@ -3,13 +3,13 @@ import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import * as Yup from 'yup';
 import { uniqueId } from 'lodash';
 import { UserContext } from '../UserContext';
-import { useChannels } from '../hooks';
+import { selectChannels } from '../selectors';
 import { createNotification } from '../slices/notifications';
 import api from '../api';
 
@@ -19,7 +19,7 @@ const NewMessageSchema = Yup.object().shape({
 
 export default () => {
   const { t } = useTranslation();
-  const { currentChannelId } = useChannels();
+  const { currentChannelId } = useSelector(selectChannels);
   const { name } = useContext(UserContext);
 
   const dispatch = useDispatch();

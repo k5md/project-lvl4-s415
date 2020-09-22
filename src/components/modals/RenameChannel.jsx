@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { renameChannelRequest } from '../../slices/channels';
-import { useChannels } from '../../hooks';
+import { selectChannels } from '../../selectors';
 
 export default ({ onClose }) => {
   const { t } = useTranslation();
-  const { channelsList, currentChannelId } = useChannels();
+  const { channelsList, currentChannelId } = useSelector(selectChannels);
   const currentChannel = channelsList.find(({ id }) => id === currentChannelId);
 
   const dispatch = useDispatch();

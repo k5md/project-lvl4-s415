@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import { useChannels } from '../hooks';
+import { selectChannels } from '../selectors';
 import { openModal } from '../slices/modals';
 
 export default () => {
   const { t } = useTranslation();
 
-  const { currentChannelId, channelsList } = useChannels();
+  const { currentChannelId, channelsList } = useSelector(selectChannels);
   const { removable, name: channelName } = channelsList.find(({ id }) => currentChannelId === id) || { name: '', removable: false };
 
   const dispatch = useDispatch();
