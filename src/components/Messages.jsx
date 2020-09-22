@@ -17,5 +17,5 @@ export default () => {
     </div>
   ), []);
 
-  return messagesList.filter(({ channelId }) => currentChannelId === channelId).map(renderMessage);
+  return messagesList.map(renderMessage);
 };

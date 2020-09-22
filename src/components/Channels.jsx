@@ -39,7 +39,7 @@ export default () => {
         <span>{t('channels.title')}</span>
         <Button variant="link" className="shadow-none" onClick={showAddChannel}>+</Button>
       </div>
-      <Nav variant="pills" className="d-flex flex-column flex-nowrap scrollable">
+      <Nav variant="pills" className="d-flex flex-column flex-nowrap overflow-auto">
         {channelsList.map(renderChannel)}
       </Nav>
     </div>

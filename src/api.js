@@ -4,22 +4,22 @@ import routes from './routes';
 export default {
   createChannel: ({ name }) => {
     const requestData = { data: { attributes: { name } } };
-    const request = { method: 'POST', url: routes.channelsPath(), data: requestData };
-    return axios(request);
+    const url = routes.channelsPath();
+    return axios.post(url, requestData);
   },
   removeChannel: ({ id }) => {
-    const request = { method: 'DELETE', url: routes.channelPath(id) };
-    return axios(request);
+    const url = routes.channelPath(id);
+    return axios.delete(url);
   },
   renameChannel: ({ id, name }) => {
     const requestData = { data: { attributes: { name } } };
-    const request = { method: 'PATCH', url: routes.channelPath(id), data: requestData };
-    return axios(request);
+    const url = routes.channelPath(id);
+    return axios.patch(url, requestData);
   },
   createMessage: ({ channelId, body, author }) => {
     const requestData = { data: { attributes: { author, body } } };
-    const request = { method: 'POST', url: routes.channelMessagesPath(channelId), data: requestData };
-    return axios(request);
+    const url = routes.channelMessagesPath(channelId);
+    return axios.post(url, requestData);
   },
   newMessageSocket: ({ data: { attributes } }) => attributes,
   newChannelSocket: ({ data: { attributes } }) => attributes,

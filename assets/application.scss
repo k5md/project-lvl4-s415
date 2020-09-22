@@ -1,18 +1,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 .notifications__container {
-  position: relative;
-  height: 3rem;
-}
-
-.notifications__toast {
   position: absolute;
-  background-clip: unset;
-  box-shadow: none;
-};
-
-.scrollable {
-  flex: 1 1 auto;
-  height: 0px;
-  overflow-y: auto;
+  top: 0;
+  right: 0;
 }
