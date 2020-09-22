@@ -2,15 +2,15 @@ import React, { useCallback } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeChannelRequest } from '../../slices/channels';
-import { useChannels } from '../../hooks';
+import { selectChannels } from '../../selectors';
 
 export default ({ onClose }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { currentChannelId } = useChannels();
+  const { currentChannelId } = useSelector(selectChannels);
 
   const removeHandler = useCallback(async () => {
     await dispatch(removeChannelRequest({ id: currentChannelId }));

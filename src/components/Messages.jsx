@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
-import { useMessagesList, useChannels } from '../hooks';
+import { useSelector } from 'react-redux';
+import { selectMessagesList, selectChannels } from '../selectors';
 
 export default () => {
-  const { currentChannelId } = useChannels();
-  const messagesList = useMessagesList(currentChannelId);
+  const { currentChannelId } = useSelector(selectChannels);
+  const messagesList = useSelector(selectMessagesList(currentChannelId));
 
   const renderMessage = useCallback(({ id, author, body }) => (
     <div className="text-wrap text-break" key={id}>

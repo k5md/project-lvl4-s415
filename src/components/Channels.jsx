@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { useChannels } from '../hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectChannels } from '../selectors';
 import { openModal } from '../slices/modals';
 import { setCurrentChannel } from '../slices/channels';
 
@@ -11,7 +11,7 @@ export default () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { channelsList, currentChannelId } = useChannels();
+  const { channelsList, currentChannelId } = useSelector(selectChannels);
 
   const activateHandler = (id) => () => {
     dispatch(setCurrentChannel({ id }));

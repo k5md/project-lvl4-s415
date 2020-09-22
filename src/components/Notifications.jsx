@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import Toast from 'react-bootstrap/Toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useNotifications } from '../hooks';
+import { selectNotifications } from '../selectors';
 import { removeNotification } from '../slices/notifications';
 
 export default () => {
   const { t } = useTranslation();
-  const notifications = useNotifications();
+  const notifications = useSelector(selectNotifications);
 
   const dispatch = useDispatch();
 
