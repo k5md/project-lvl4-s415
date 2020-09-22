@@ -1,22 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { uniqueId } from 'lodash';
-import { createNotification } from './notifications';
+import { createSlice } from '@reduxjs/toolkit';
 import { removeChannel } from './channels';
-import api from '../api';
-
-export const createMessageRequest = createAsyncThunk(
-  'messages/createMessage',
-  async (message, { dispatch }) => {
-    const { channelId, body, author } = message;
-    try {
-      await api.createMessage({ channelId, body, author });
-    } catch (err) {
-      const notification = { id: uniqueId(), type: 'error', message: err.message };
-      dispatch(createNotification(notification));
-      throw err;
-    }
-  },
-);
 
 const messagesSlice = createSlice({
   name: 'messages',

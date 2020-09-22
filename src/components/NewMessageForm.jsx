@@ -7,8 +7,10 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import * as Yup from 'yup';
+import { uniqueId } from 'lodash';
 import { useChannels, useUser } from '../hooks';
-import { createMessageRequest } from '../slices/messages';
+import { createNotification } from '../slices/notifications';
+import api from '../api';
 
 const NewMessageSchema = Yup.object().shape({
   message: Yup.string().required(i18n.t('errors.messages.emptyBody')),
@@ -23,8 +25,13 @@ export default () => {
 
   const addHandler = useCallback(async (values, { resetForm }) => {
     const message = { body: values.message, channelId: currentChannelId, author: name };
-    await dispatch(createMessageRequest(message));
-    resetForm();
+    try {
+      await api.createMessage(message);
+      resetForm();
+    } catch (error) {
+      const notification = { id: uniqueId(), type: 'error', message: error.message };
+      dispatch(createNotification(notification));
+    }
   }, [name, currentChannelId]);
 
   return (
