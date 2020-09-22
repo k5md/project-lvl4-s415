@@ -6,7 +6,13 @@ import { Formik } from 'formik';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import i18n from 'i18next';
 import { createChannelRequest } from '../../slices/channels';
+
+const NewChannelSchema = Yup.object().shape({
+  name: Yup.string().required(i18n.t('errors.channels.emptyName')),
+});
 
 export default ({ onClose }) => {
   const { t } = useTranslation();
@@ -20,14 +26,6 @@ export default ({ onClose }) => {
     onClose();
   }, []);
 
-  const validateChannel = useCallback(({ name }) => {
-    const errors = {};
-    if (name.length === 0) {
-      errors.name = t('errors.channels.emptyName');
-    }
-    return errors;
-  }, []);
-
   return (
     <Modal size="sm" centered show onHide={onClose}>
       <Modal.Header closeButton>
@@ -37,7 +35,7 @@ export default ({ onClose }) => {
       </Modal.Header>
       <Formik
         initialValues={{ name: '' }}
-        validate={validateChannel}
+        validationSchema={NewChannelSchema}
         onSubmit={addHandler}
       >
         {({

@@ -5,8 +5,14 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
+import * as Yup from 'yup';
 import { useChannels, useUser } from '../hooks';
 import { createMessageRequest } from '../slices/messages';
+
+const NewMessageSchema = Yup.object().shape({
+  message: Yup.string().required(i18n.t('errors.messages.emptyBody')),
+});
 
 export default () => {
   const { t } = useTranslation();
@@ -21,18 +27,10 @@ export default () => {
     resetForm();
   }, [name, currentChannelId]);
 
-  const validateMessage = useCallback(({ message }) => {
-    const errors = {};
-    if (message.length === 0) {
-      errors.message = t('errors.messages.emptyBody');
-    }
-    return errors;
-  }, []);
-
   return (
     <Formik
       initialValues={{ message: '' }}
-      validate={validateMessage}
+      validationSchema={NewMessageSchema}
       onSubmit={addHandler}
     >
       {({
