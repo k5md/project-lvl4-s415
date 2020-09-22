@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { uniqueId } from 'lodash';
 import { createNotification } from './notifications';
+import { removeChannel } from './channels';
 import api from '../api';
 
 export const createMessageRequest = createAsyncThunk(
@@ -25,6 +26,10 @@ const messagesSlice = createSlice({
     createMessage: (state, { payload }) => {
       state.push(payload);
     },
+  },
+  extraReducers: {
+    [removeChannel]: (state, { payload: { id } }) => state
+      .filter((message) => message.channelId !== id),
   },
 });
 
