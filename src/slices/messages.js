@@ -22,7 +22,6 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState: [],
   reducers: {
-    initializeMessages: (state, { payload: { messages } }) => messages,
     createMessage: (state, { payload }) => {
       state.push(payload);
     },

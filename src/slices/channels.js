@@ -50,10 +50,6 @@ const channelsSlice = createSlice({
     currentChannelId: null,
   },
   reducers: {
-    initializeChannels: (state, { payload: { channels, currentChannelId } }) => {
-      state.channelsList = channels;
-      state.currentChannelId = currentChannelId;
-    },
     createChannel: (state, { payload }) => {
       state.channelsList.push(payload);
       state.currentChannelId = payload.id;
